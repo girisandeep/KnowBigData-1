@@ -1,15 +1,15 @@
-#!/usr/bin/python
+!/usr/bin/python
 
 import sys
 
 oldKey = None
-dict = {}
+userList = ""
 
 # Loop around the data
 # It will be in the format key\tval
-# Where key is the DNA in sorted character order, val is the username
+# Where key is the word in sorted character order, val is the actual word
 #
-# Print all the users whose DNAs are equal or a mirror image
+# Print all the words whose keys are equal and they are the anagrams
 
 for line in sys.stdin:
     data_mapped = line.strip().split("\t")
@@ -18,20 +18,14 @@ for line in sys.stdin:
         continue
 
     thisKey, thisUser = data_mapped
-    #Reverse the key using STRING[::-1]
-    reverseKey = thisKey[::-1]
-    
-    if thisKey in dict:
-	value = dict[thisKey] + ", " + thisUser
-	dict[thisKey] = value
-    elif reverseKey in dict:
-	value = dict[reverseKey] + ", " + thisUser
-	dict[reverseKey] = value
-    else:
-	dict[thisKey] = thisUser
 
-keylist = dict.keys()
-keylist.sort()
+    if oldKey and oldKey != thisKey:
+        print "{0}\t{1}".format(oldKey, userList)
+        userList = ""
 
-for key in keylist:
-    print dict[key]
+    userList += thisUser + ", "
+    oldKey = thisKey
+
+if oldKey != None:
+        print "{0}\t{1}".format(oldKey, userList)
+        userList = ""
