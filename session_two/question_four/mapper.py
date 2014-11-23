@@ -14,13 +14,13 @@ for line in sys.stdin:
         continue
 
     value, key = data
-
-    #Get the first and last char of the key
-    #Check which one is lower and then print the key such that the lower character comes first (same 
-    #can be done by reversing the logic such that the higher charcter comes first)
-    #For example for two mirroring keys: ACGT and TGCA. The logic can print keys as either ACGT and ACGT.
-    #Or TGCA and TGCA. That is, based on first and last characters you either reverse the key or print it as it is.
-    if key[0] > key[len(key)-1]:
-        key = key[::-1]
+    reverseKey = key[::-1]
+    
+    #Get the actual key and create a reverse of that key. Now, find the minimum of those two keys.
+    #For example, if Key=ACGT then reverse will be TGCA. The minumum of those will be ACGT.
+    #In doing this, we will get all the keys and even the mirrored ones for form a unique key value pair.
+    #Reducer will then use this output to compure user with same or mirrored DNAs
+    key = min(key, reverseKey)
 
     print "{0}\t{1}".format(key, value)
+
